@@ -12,6 +12,7 @@
     "bootstrap-select": "^1.12.4",
     "codemirror": "^5.32.0",
     "datatables.net-dt": "^1.10.16",
+    "lightbox2": "^2.10.0",
     "summernote": "^0.8.8"
   },
   "devDependencies": {

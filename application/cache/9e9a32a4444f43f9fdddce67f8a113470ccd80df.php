@@ -38,7 +38,6 @@
     
     <?php echo $__env->yieldContent( 'scripts' ); ?>
 
-    <!-- Sweet alert body -->
     <?php if( flash( 'swaSuccessBody' ) ): ?>
     <script>
         swal(

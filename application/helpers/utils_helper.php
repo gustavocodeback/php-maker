@@ -346,4 +346,16 @@ if ( !function_exists( 'oneLine' ) ) {
     }
 }
 
+/**
+ * getToken
+ * 
+ * Pega um token aleatório
+ * 
+ */
+if ( !function_exists( 'getToken' ) ) {
+    function getToken() {
+        return md5( uniqid( rand() * time() ) );
+    }
+}
+
 // End of file

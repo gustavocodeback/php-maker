@@ -1,0 +1,27 @@
+#midias {
+    .midia-content {
+        background: theme-color( 'light' );
+        overflow: hidden;
+        border-radius: 5px;
+        position: relative;
+
+        img {
+            transition: .25s;
+        }
+        .btn-danger {
+            bottom: 5px;
+            right: 5px;
+            display: none;
+        }
+
+        &:hover {
+            cursor: pointer;
+            img {
+                opacity: 0.5;
+            }
+            .btn-danger {
+                display: block;
+            }
+        }
+    }
+}
