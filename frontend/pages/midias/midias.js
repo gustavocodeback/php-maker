@@ -4,11 +4,10 @@
  * Faz o resize dos containers de midia
  * 
  */
-function resizeMidiaContent() {
-
+window.resizeMidiaContent = function() {
+    
     // Percorre todos os containers de midia
     $( '.midia-content' ).each( function( index, item ) {
-        $( item ).height( $( item ).width() );
 
         // Pega a imagem
         var img = $( item ).find( 'img' );

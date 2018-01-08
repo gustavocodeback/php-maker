@@ -1,30 +1,14 @@
 <div class="row pt-3">
-    <div class="col-xs-12 col-sm-8">
+    <div class="col-xs-12 <?php echo e(getContext() !== 'midia' ? 'col-sm-8' : 'col-sm-8 offset-sm-2'); ?>">
         <div id="newMidiaInput" class="slim">
             <input type="file" name="slim[]" required />
         </div>
     </div>
+    <?php if( getContext() !== 'midia' ): ?>     
     <div class="col-xs-12 col-sm-4">
-
-        <div class="well pb-5">
-            <b class="d-block">Nome</b>
-            <small class="d-block">arquivo.txt</small>
-            <b class="d-block">Nome</b>
-            <small class="d-block">arquivo.txt</small>
-            <b class="d-block">Nome</b>
-            <small class="d-block">arquivo.txt</small>
-            <b class="d-block">Nome</b>
-            <small class="d-block">arquivo.txt</small>
-
-            <div class="p-1 mt-3 alert alert-success">
-                <p>Sua imagem foi salva com sucesso!</p>
-            </div>
-        </div>
-
-        <?php if( getContext() !== 'midia' ): ?> 
         <button onclick="uploadCurrentImage()" class="btn btn-success">
-            Salvar foto
+            Usar foto
         </button>
-        <?php endif; ?>
     </div>
+    <?php endif; ?>
 </div>

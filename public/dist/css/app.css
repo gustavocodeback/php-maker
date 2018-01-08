@@ -13399,6 +13399,11 @@ select[multiple].input-sm {
   height: auto;
 }
 
+.midia-input {
+  width: 100%;
+  border: 1px solid #e6e6e6;
+}
+
 .timeline {
   list-style: none;
   padding: 20px 0 20px;
@@ -14023,32 +14028,40 @@ select[multiple].input-sm {
   transform: scale(1.01);
 }
 
-#midias .midia-content {
+#midiaModal .scroll-content {
+  height: 300px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.midia-content {
   background: #e6e6e6;
   overflow: hidden;
   border-radius: 5px;
   position: relative;
+  width: 100px;
+  height: 100px;
 }
 
-#midias .midia-content img {
+.midia-content img {
   transition: .25s;
 }
 
-#midias .midia-content .btn-danger {
+.midia-content .btn-danger, .midia-content .btn-info {
   bottom: 5px;
   right: 5px;
   display: none;
 }
 
-#midias .midia-content:hover {
+.midia-content:hover {
   cursor: pointer;
 }
 
-#midias .midia-content:hover img {
+.midia-content:hover img {
   opacity: 0.5;
 }
 
-#midias .midia-content:hover .btn-danger {
+.midia-content:hover .btn-danger, .midia-content:hover .btn-info {
   display: block;
 }
 

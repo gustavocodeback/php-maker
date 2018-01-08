@@ -13,10 +13,6 @@ class Midia extends SG_Controller {
 		parent::__construct();
 		setTitle( 'Midias' );
 
-		// Seta o contexto
-		context( 'midia' );
-		navbar( 'Midias' );
-
 		// Carrega a library
 		$this->load->library( 'Slim' );
 		$this->load->model( 'midia' );
@@ -29,11 +25,40 @@ class Midia extends SG_Controller {
 	 *
 	 * @return void
 	 */
-	public function index() {
+	public function index( $page = 1 ) {
+		
+		// Seta o contexto
+		context( 'midia' );
+		navbar( 'Midias' );
+
+		// Carrega a library de configuração
+		$this->config->load( 'pagination' );
+		$paginationConfig = $this->config->item( 'pagination' );
 
 		// Carrega todas as midias
-		$midias = $this->Midia->find();
-		setItem( 'midias', $midias );
+		$query  = $this->input->get( 'query' );
+		$query  = $query ? $query : '';
+		$midias = $this->Midia->where( " name LIKE '%$query%' ")->paginate( $page );		
+		setItem( 'query', $query );
+
+		// Carrega a library de paginação
+		$paginationConfig['total_rows'] = $midias->total_itens;
+		$paginationConfig['per_page']   = $midias->per_page;
+		$paginationConfig['base_url']   = '/midia/index';
+		$this->load->library( 'pagination', $paginationConfig );
+		setItem( 'pagination_links', $this->pagination->create_links() );
+
+		// Percorre todas as midias encontradas
+		$formatted = [date( 'd-m-Y', time() ) => [] ];
+		foreach( $midias->data as $midia ) {
+			$key = date( 'd-m-Y', strtotime( $midia->created_at ) );
+
+			// Verifica se já existe a chave
+			if ( isset( $formatted[$key] ) ) {
+				$formatted[$key][] = $midia;
+			} else $formatted[$key] = [ $midia ];
+		}
+		setItem( 'midias', $formatted );
 
 		// Carrega a view
 		view( 'midias/midias' );
@@ -110,6 +135,53 @@ class Midia extends SG_Controller {
 				echo safe_json_encode( $midia->metadata() );
 			} else return;
 		} else return;
+	}
+
+	/**
+	 * find
+	 * 
+	 * Pega uma midia pelo id
+	 *
+	 * @param [type] $id
+	 * @return void
+	 */
+	public function find( $id ) {
+
+		// Busca a midia pelo ID
+		$midia = $this->Midia->findById( $id );
+		if ( !$midia ) return;
+		
+		// Imprime o JSON
+		echo safe_json_encode( $midia->metadata() );
+	}
+
+	/**
+	 * get
+	 * 
+	 * Envia as midias para a páginação AJAX
+	 *
+	 * @param integer $page
+	 * @return void
+	 */
+	public function get( $page = 1 ) {
+
+		// Pega as midias
+		$midias = $this->Midia->paginate();
+		$midias = $midias ? $midias : [];
+
+		// Faz o mapping
+		$formatted = [date( 'd-m-Y', time() ) => [] ];
+		foreach( $midias->data as $midia ) {
+			$key = date( 'd-m-Y', strtotime( $midia->created_at ) );
+
+			// Verifica se já existe a chave
+			if ( isset( $formatted[$key] ) ) {
+				$formatted[$key][] = $midia->metadata();
+			} else $formatted[$key] = [ $midia->metadata() ];
+		}
+
+		// Envia o json
+		resolve( $formatted );
 	}
 }
 

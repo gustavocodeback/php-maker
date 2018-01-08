@@ -63,3 +63,8 @@ textarea.input-sm,
 select[multiple].input-sm {
     height: auto;
 }
+
+.midia-input {
+    width: 100%;
+    border: 1px solid theme-color( 'light' );
+}

@@ -16,7 +16,7 @@
         <?php endif; ?>
 
         <?php if( method_exists( $modelGrid, 'form' ) ): ?>
-        <a href="<?php echo e(site_url( uri_string().'?addModal=true' )); ?>" class="btn btn-success text-light">
+        <a href="<?php echo e(site_url( $modelGrid->table().'/list?addModal=true' )); ?>" class="btn btn-success text-light">
             Adicionar
         </a>
         <?php endif; ?>

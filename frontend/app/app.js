@@ -12,6 +12,10 @@ try {
 
 } catch (error) {}
 
+// Inclui o view
+window.Vue = require( './js/vue.min' );
+window.Hub = new window.Vue();
+
 // Inclui o Bootstrap
 require( 'bootstrap' );
 require( 'bootstrap-select' );
@@ -42,13 +46,14 @@ require( '../pages/midias/midias' );
  * 
  */
 $( document ).ready( function() {
-    $( '.slim' ).slim({
+    var slimConfig = {
         ratio: '4:3',
         label: 'Clique ou arraste sua imagem aqui',
         buttonConfirmLabel: 'Confirmar',
-        service: 'midia/salvar_imagem',
-        buttonCancelLabel: 'Cancelar'
-    });
+        service: Site.url+'midia/salvar_imagem',
+        buttonCancelLabel: 'Cancelar',
+    };
+    $( '.slim' ).slim( slimConfig );
 });
 
 // End of file

@@ -1,6 +1,5 @@
 @extends('layouts.admin')
 @section('content')
-    @include( 'components.midia-modal.midia-modal' )
     <div id="midias" class="row pr-3">
         <div class="col bg-light z-depth-1 rounded pb-3">
             
@@ -8,35 +7,50 @@
                 <h2>Midias</h2>
             </div>
 
-            <div class="row">
+            <form mehotd="get" action="{{ site_url( 'midia' ) }}" class="row">
                 <div class="col p-3">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Encontre suas midias..." aria-label="Search for...">
+                        <input  type="text" 
+                                class="form-control" 
+                                placeholder="Encontre suas midias..." 
+                                value="{{ $query ? $query : '' }}"
+                                name="query">
                         <span class="input-group-btn">
-                            <button class="btn btn-primary" type="button">Pesquisar!</button>
+                            <button class="btn btn-primary">Pesquisar!</button>
                         </span>
                     </div>
                 </div>
-            </div>
+            </form><!-- formulário de pesquisa -->
 
-            <div class="row p-3">
-                <div data-ratio="1:1"
-                     data-max="2"
-                     data-min="1"
-                     data-input="files[]"
-                     data-minwidth="100"
-                     data-maxwidth="400"
-                     data-minheight="100"
-                     data-maxheight="400" 
-                     class="midia-seletor midia-content text-center col-xs-12 col-md-2 pt-4 m-1">
+            @if( $query )
+            <div class="row pl-3 pr-3">
+                <nav aria-label="breadcrumb" role="navigation">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active" aria-current="page">
+                            <b>Buscando por:</b> {{ $query }}
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+            @endif<!-- breadcrumb -->
+
+            <div class="row pl-3 pr-3">
+                @foreach( $midias as $key => $item )
+                <div class="title-divider">
+                    <span>{{ $key }}</span>
+                </div>
+
+                @if ($loop->first)
+                <div class="midia-seletor midia-content text-center col-xs-12 col-md-2 pt-3 m-1">
                     <small>
                         Adicionar nova imagem <br>
                         <i class="fa fa-plus"></i>
                     </small>
                 </div>
+                @endif
 
-                @foreach( $midias as $midia )
-                <div class="midia-content col-xs-12 col-md-2 p-0 m-1" title="{{ $midia->name }}">
+                @foreach( $item as $midia )
+                <div class="midia-content p-0 m-1" title="{{ $midia->name }}">
                     <a href="{{ $midia->path() }}" data-lightbox="midias">
                         <img class="position-absolute" src="{{ $midia->path() }}">
                     </a>
@@ -45,8 +59,14 @@
                     </button>
                 </div>
                 @endforeach
+                @endforeach
             </div>
             
+            <div class="row">
+                <div class="col pt-5">
+                    {!! $pagination_links !!}
+                </div>
+            </div>
         </div>
     </div>
 @endsection

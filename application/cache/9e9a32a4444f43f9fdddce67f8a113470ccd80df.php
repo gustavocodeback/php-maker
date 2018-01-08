@@ -11,11 +11,16 @@
     <?php echo $__env->yieldContent( 'styles' ); ?>
 </head>
 <body>
+    <script>
+        var Site = {
+            url: '<?php echo e(site_url()); ?>',
+            base: '<?php echo e(base_url()); ?>',
+        };
+    </script>
 
     <?php if( editMode() ): ?>
         <?php echo $__env->make( 'components.edit-mode.edit-mode' , array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
     <?php endif; ?>
-
     <?php echo $__env->make( 'components.helpbar.helpbar' , array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
     <div class="container">
@@ -30,6 +35,8 @@
         </div>
         <?php echo $__env->make( 'components.footer.footer' , array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>        
     </div>
+
+    <?php echo $__env->make( 'components.midia-modal.midia-modal' , array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>    
     
     <script src="<?php echo e(base_url( 'public/dist/js/app.js')); ?>"></script>
     <script src="https://unpkg.com/sweetalert2@7.0.9/dist/sweetalert2.all.js"></script>

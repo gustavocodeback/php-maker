@@ -67,6 +67,7 @@ class Midia_model extends Midia_finder {
         'type'       => $this->type,
         'size'       => $this->size,
         'ext'        => $this->ext,
+        'path'       => $this->path(),
         'created_at' => $this->created_at,
         'updated_at' => $this->updated_at,
       ];

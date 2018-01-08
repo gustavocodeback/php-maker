@@ -11,6 +11,18 @@
       </div>
     
       <div class="modal-body">
+      <div    class="midia-input" 
+              data-label="Avatar" 
+              data-model="1" 
+              data-name="midias" 
+              data-size="1" 
+              data-radio="1:1">
+
+          <button type="button" class="btn btn-success midia-seletor">
+            Escolher foto
+          </button>
+      </div>
+      
         @foreach( $modelGrid->form( 'fields' ) as $item )
           @if( $item['type'] == 'text' )
           {!! inputText( $item['label'],  $item['name'], [ 'attr' => [ 'value' => $modelGrid->{$item['name']} ] ] ) !!}

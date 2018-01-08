@@ -13,7 +13,8 @@
     "codemirror": "^5.32.0",
     "datatables.net-dt": "^1.10.16",
     "lightbox2": "^2.10.0",
-    "summernote": "^0.8.8"
+    "summernote": "^0.8.8",
+    "vue": "^2.5.13"
   },
   "devDependencies": {
     "animate.css": "^3.5.2",
