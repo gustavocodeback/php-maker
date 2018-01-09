@@ -57,7 +57,8 @@
         
         <div class="modal-footer">
             <?php if( getContext() !== 'midia' ): ?>
-            <button :disabled="picked.length == 0" type="submit" class="btn btn-primary">Escolher</button>
+            <button type="button" v-on:click="closeModal()" class="btn btn-secondary">Fechar</button>            
+            <button :disabled="picked.length == 0" v-on:click="pickMidias()" type="button" class="btn btn-primary">Escolher</button>
             <?php else: ?>
             <button type="button" <?php echo clickOpen( 'midia' ); ?> class="btn btn-secondary" data-dismiss="modal">Fechar</button>        
             <?php endif; ?>

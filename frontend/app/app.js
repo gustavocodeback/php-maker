@@ -1,3 +1,5 @@
+import Emitter from 'emitter-js/dist/emitter';
+
 /**
  * Faz o Bootstrap do JS da aplicação
  * 
@@ -9,6 +11,9 @@ try {
 
     // Carrega o Popper
     window.Popper = require( 'popper.js' );
+
+    // Seta o emissor de eventos
+    window.emitter = new Emitter();
 
 } catch (error) {}
 
@@ -46,14 +51,15 @@ require( '../pages/midias/midias' );
  * 
  */
 $( document ).ready( function() {
-    var slimConfig = {
-        ratio: '4:3',
+    window.slimConfig = {
         label: 'Clique ou arraste sua imagem aqui',
         buttonConfirmLabel: 'Confirmar',
         service: Site.url+'midia/salvar_imagem',
         buttonCancelLabel: 'Cancelar',
+        onComplete: function( err, res ) {
+            if ( !err ) window.emitter.emit( 'slimSavedPicture', res );
+        }
     };
-    $( '.slim' ).slim( slimConfig );
 });
 
 // End of file

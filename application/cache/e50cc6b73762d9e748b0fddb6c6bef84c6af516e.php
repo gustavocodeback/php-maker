@@ -8,7 +8,7 @@
                     aria-label="Search for...">
             <span class="input-group-btn">
                 <button class="btn btn-primary" 
-                        v-on:click="queryMidias()"
+                        v-on:click="search()"
                         type="button">Pesquisar!</button>
             </span>
         </div>
@@ -41,7 +41,7 @@
 
     </div>
 
-    <div class="col-12 text-center pt-5">
+    <div v-if="hasMore" v-on:click="loadMore()" class="col-12 text-center pt-5">
         <button class="btn btn-primary">
             Carregar mais
         </button>

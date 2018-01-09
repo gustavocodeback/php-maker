@@ -166,8 +166,9 @@ class Midia extends SG_Controller {
 	public function get( $page = 1 ) {
 
 		// Pega as midias
-		$midias = $this->Midia->paginate();
-		$midias = $midias ? $midias : [];
+		$query  = $this->input->get( 'query' );
+		$query  = $query ? $query : '';
+		$midias = $this->Midia->newer()->where( " name LIKE '%$query%' ")->paginate( $page );
 
 		// Faz o mapping
 		$formatted = [date( 'd-m-Y', time() ) => [] ];
@@ -179,9 +180,12 @@ class Midia extends SG_Controller {
 				$formatted[$key][] = $midia->metadata();
 			} else $formatted[$key] = [ $midia->metadata() ];
 		}
+		$midias->data = array_filter( $formatted, function( $value ) {
+			return ( count( $value ) > 0 );
+		});
 
 		// Envia o json
-		resolve( $formatted );
+		resolve( $midias );
 	}
 }
 
