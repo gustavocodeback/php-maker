@@ -34,6 +34,18 @@ class Home extends SG_Controller {
 	public function index() {
 		setTitle( 'Inicio' );
 
+		$link = $this->input->get( 'query' );
+		$link = $link ? $link : 'http://rss.home.uol.com.br/index.xml';
+
+		$this->load->library( 'rss' );
+		$rss = $this->rss->load( $link );
+
+		if ( !$rss->status ) {
+			flash( 'swaErrorBody', $rss->error );
+		}
+
+		setItem( 'rss', $rss );
+
 		// Carrega o grid
 		view( 'home/home' );
 	}
