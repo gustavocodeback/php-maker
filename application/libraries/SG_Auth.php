@@ -53,7 +53,7 @@ class SG_Auth {
      * @return void
      */
     public function set_session( $user ) {
-
+        
         // seta os dados na sessão
         $this->ci->session->set_userdata( 'auth-id',    $user->id );
         $this->ci->session->set_userdata( 'auth-email', $user->email );

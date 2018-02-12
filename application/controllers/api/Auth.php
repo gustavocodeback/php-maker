@@ -98,26 +98,37 @@ class Auth extends SG_Controller {
 		// carrega o usuario
 		$user = $this->User->email( $email );
 
-		// faz o login
-		if ( $error = $this->User->login( $email, $senha, true ) ) {
+		try {
 
-			// verifica se esta ativo as tentativas
+			// Tenta fazer o login
+			$this->User->login( $email, $senha, true );
+
+			// Reseta as tentativas de login
+			$this->User->apiUser->resetAttempts();
+
+			// Volta os dados de autenticação
+			resolve( $this->User->apiUser->authData() );
+
+			// Volta true
+			return true;
+		} catch( Error $e ) {
+
+			// Pega a mensagem
+			$message = $e->getMessage();
+
+			// Verifica se esta ativo as tentativas
 			if ( $this->attempts_limit && $user ) {
 				$rest = $this->attempts_limit - $user->login_attempts;
 				if ( $rest <= 3 ) {
-					$error->message .= '<br>';
-					$error->message .= 'Você ainda tem <b>'.$rest.'</b> tentativas.'; 
-					$error->message .= 'Depois disso, sua conta será bloqueado por 30 minutos.';
+					$message .= '<br>';
+					$message .= 'Você ainda tem <b>'.$rest.'</b> tentativas.'; 
+					$message .= 'Depois disso, sua conta será bloqueado por 30 minutos.';
 				}
 			}
 
 			// seta a mensagem de erro
-			reject(  $error->message );
+			reject(  $message );
 			return false;
-		} else {
-			$this->User->apiUser->resetAttempts();
-			resolve( $this->User->apiUser->authData() );
-			return true;
 		}
 	}
 

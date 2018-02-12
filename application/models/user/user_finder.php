@@ -75,12 +75,10 @@ class User_finder extends SG_Model {
         $user = $this->email( $email );
 
         // verifica se existe um usuario
-        if ( !$user ) return $this->errors->set_error( 001, 'Usuário não encontrado' );
+        if ( !$user ) throw new Error( 'Usuário não encontrado' );
 
         // verifica se a senha esta correta
-        if ( !password_verify( $senha, $user->password ) ) {
-            return $this->errors->set_error( 002, 'A senha digitada está incorreta' );
-        }
+        if ( !password_verify( $senha, $user->password ) ) throw new Error( 'A senha digitada está incorreta' );
 
         // faz o login
         if ( $api ) {
@@ -89,9 +87,6 @@ class User_finder extends SG_Model {
         } else {
             $this->sg_auth->login( $user );
         }
-
-        // volta nulo
-        return null;
     }
 }
 

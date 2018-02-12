@@ -130,34 +130,37 @@ class Auth extends SG_Controller {
 
 		// carrega o usuario
 		$user = $this->User->email( $email );
+		try {
 
-		// faz o login
-		if ( $error = $this->User->login( $email, $senha ) ) {
+			// Tenta fazer o login
+			$this->User->login( $email, $senha );
+
+			// Verifica se o usuário está nos grupos de login
+			if ( inGroup( [ 'admin' ] ) ) {
+				auth()->resetAttempts();
+				close_page( 'home' );
+				return true;
+			} else $this->logout();
+
+		} catch( Error $e ) {
+
+			// Pega a mensagem
+			$message = $e->getMessage();
 
 			// verifica se esta ativo as tentativas
 			if ( $this->attempts_limit && $user ) {
 				$rest = $this->attempts_limit - $user->login_attempts;
 				if ( $rest <= 3 ) {
-					$error->message .= '<br>';
-					$error->message .= 'Você ainda tem <b>'.$rest.'</b> tentativas.'; 
-					$error->message .= 'Depois disso, sua conta será bloqueado por 30 minutos.';
+					$message .= '<br>';
+					$message .= 'Você ainda tem <b>'.$rest.'</b> tentativas.'; 
+					$message .= 'Depois disso, sua conta será bloqueado por 30 minutos.';
 				}
 			}
 
 			// seta a mensagem de erro
-			$this->view->set( 'errorTitle', 'Erro ao logar' );
-			$this->view->set( 'errorBody',  $error->message );
+			setItem( 'errorTitle', 'Erro ao logar' );
+			setItem( 'errorBody',  $message );
 			return false;
-		} else {
-
-			// Verifica se o usuário está nos grupos de login
-			if ( inGroup( [ 'admin', 'redator', 'suporte' ] ) ) {
-				auth()->resetAttempts();
-				close_page( 'home' );
-				return true;
-			} else {
-				$this->logout();
-			}
 		}
 	}
 
