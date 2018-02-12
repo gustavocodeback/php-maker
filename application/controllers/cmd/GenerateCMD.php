@@ -1,12 +1,12 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
- * MakeCMD
+ * GenerateCMD
  * 
  * Comandos que serão rodados no CMD
  * 
  */
-class MakeCMD extends CI_Controller {
+class GenerateCMD extends CI_Controller {
 
     /**
      * ci_sessions
@@ -551,34 +551,6 @@ class MakeCMD extends CI_Controller {
     }
 
     /**
-     * serve
-     *
-     * inicia o servidor php
-     * 
-     * @return void
-     */
-    public function serve() {
-
-        // executa o compilador
-        cmdLine( "Iniciando o servidor ..." );
-        passthru( 'gulp connect' );
-    }
-
-    /**
-     * install
-     * 
-     * instala a aplicação na máquina
-     *
-     * @return void
-     */
-    public function install() {
-
-        // executa as instalações
-        cmdLine( "Instalando a aplicacao ..." );
-        passthru( 'npm install && composer install' );
-    }
-
-    /**
      * scafold
      * 
      * gera as models com base no banco de dados
@@ -608,29 +580,6 @@ class MakeCMD extends CI_Controller {
             // verifica se deve gerar com crud
             if ( $crud ) $this->controller( 'web:'.$model_name, $model_name );
         }
-    }
-
-    /**
-     * migrate
-     * 
-     * faz a migração do db
-     *
-     * @return void
-     */
-    public function migrate( $tables = false ) {
-        cmdLine( 'Iniciando a migracao ...' );
-
-        // verifica se foi especificado as tabelas
-        if ( $tables ) {
-            $tables = explode( ':', $tables );
-        }
-
-        // carrega a library de migração
-        $this->load->library( 'migration' );
-
-        // faz a migração
-        $this->migration->start( $tables );
-        cmdLine( 'Migracao feita!' );
     }
 
     /**
