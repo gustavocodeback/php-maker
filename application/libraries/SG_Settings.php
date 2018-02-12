@@ -79,11 +79,11 @@ class SG_Settings {
     public function set( $key, $value, $slug = 'system' ) {
 
         // pega o valor
-        $val = $this->get( $key );
+        $val = $this->get( $key, null, $slug );
 
         // verifica se é um update ou um insert
         if ( $val ) {
-            $this->ci->db->where( [ 'key' => $key ] );
+            $this->ci->db->where( [ 'key' => $key, 'slug' => $slug ] );
             $this->ci->db->update( 'sg_settings', [ 'val' => $value ] );
         } else {
             $this->ci->db->insert( 'sg_settings', [ 'key' => $key, 'val' => $value, 'slug' => $slug ] );            
@@ -106,7 +106,7 @@ class SG_Settings {
                  ->where( " key = '$key' " );
         
         // Verifica se existe um slug
-        if ( $slug ) $this->ci->db->where( " $slug = '$slug' " );
+        if ( $slug ) $this->ci->db->where( " slug LIKE '$slug' " );
 
         // faz a busca
         $busca = $this->ci->db->get();

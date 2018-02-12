@@ -94,8 +94,8 @@ class Settings extends SG_Controller {
 	public function save() {
 		
 		// Pega as chaves e os valores
-		$keys = $this->input->post( 'keys' );
-		$vals = $this->input->post( 'vals' );
+		$keys = $this->input->post( 'keys' ) ? $this->input->post( 'keys' ) : [];
+		$vals = $this->input->post( 'vals' ) ? $this->input->post( 'vals' ) : [];
 		$slug = $this->input->post( 'slug' );
 
 		// Percorre todas as chaves
